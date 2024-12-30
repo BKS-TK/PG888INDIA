@@ -1,1 +1,740 @@
-# PG888INDIA
+_G["Roller"] = true
+_G["WebHookURL"] = "https://discord.com/api/webhooks/1297224517000888320/dR_aea6xmHeQCD2AzdtNxjZYtr1O1TJih9qStofVaWSfVF050ZDCx--MSIy_wcKpxNx1"
+_G["ShetBestEndPoint"] = "https://api.sheetbest.com/sheets/00f304b9-70fa-402d-b0ce-bfb6a5dc6f5a"
+_G["ApiKey"] = "X6C3MdV4sMz6Xo%BF3bK58d9%2Zb9fH9@vi$PVfq80oX@3RzbB%2yqS!FaJdalB3"
+
+_G.ItemsToFind = {
+    ["God Potion"] = 0,
+    ["Huge Egg"] = 0,
+    ["Diamond Fishing Rod"] = 0,
+    ["Frozen Fishing Rod"] = 0,
+    ["Huge Jolly Moose"] = 0,
+    ["Titanic Reindeer Cat"] = 0,
+    ["Corrupted Fishing Rod"] = 0,
+    ["Corrupted Huge Bait"] = 0,
+    ["Huge Gingerbread Dragon"] = 0
+}
+
+print("The Hexation | Loading")
+------------------------------ [ Variables ] ------------------------------
+if _G["Roller"] then
+    repeat wait() until game:IsLoaded()
+    wait(2)
+    print("The Hexation | Loaded")
+    if game:IsLoaded() == true then
+        local g, w, l, t, decalsyeeted = game, game.Workspace, game.Lighting, game.Workspace.Terrain, true
+        t.WaterWaveSize, t.WaterWaveSpeed, t.WaterReflectance, t.WaterTransparency = 0, 0, 0, 0
+        l.GlobalShadows, l.FogEnd, l.Brightness = false, 9e9, 0
+        settings().Rendering.QualityLevel = "Level01"
+        for _,v in pairs(g:GetDescendants()) do if (v:IsA("Part") or v:IsA("Union") or v:IsA("CornerWedgePart") or v:IsA("TrussPart")) then v.Material, v.Reflectance = "Plastic", 0 
+        elseif (v:IsA("Decal") or v:IsA("Texture")) and decalsyeeted then v.Transparency = 1 elseif v:IsA("ParticleEmitter") or v:IsA("Trail") then v.Lifetime = NumberRange.new(0)
+        elseif v:IsA("Explosion") then v.BlastPressure, v.BlastRadius = 1, 1 elseif v:IsA("Fire") or v:IsA("SpotLight") or v:IsA("Smoke") then v.Enabled = false 
+        elseif v:IsA("MeshPart") then v.Material, v.Reflectance, v.TextureID = "Plastic", 0, 10385902758728957 end end
+        for _,e in pairs(l:GetChildren()) do if (e:IsA("BlurEffect") or e:IsA("SunRaysEffect") or e:IsA("ColorCorrectionEffect") or e:IsA("BloomEffect") or e:IsA("DepthOfFieldEffect")) then e.Enabled = false end end
+
+        local Collection = {}
+
+        local Debris = game:GetService("Debris")
+        local TweenService = game:GetService("TweenService")
+        local Tween_Info = TweenInfo.new(0.2, Enum.EasingStyle.Linear)
+
+        function Collection:new(_Object, Property)
+            local Object = Instance.new(_Object)
+            for i, v in pairs(Property) do
+                Object[i] = v
+            end
+            return Object
+        end
+        
+
+        local Debug = true
+
+        local Players = game:GetService("Players")
+        local Workspace = game:GetService("Workspace")
+        local RunService = game:GetService("RunService")
+        local GuiService = game:GetService("GuiService")
+        local VirtualUser = game:GetService("VirtualUser")
+        local HttpService = game:GetService("HttpService")
+        local TweenService = game:GetService("TweenService")
+        local TeleportService = game:GetService("TeleportService")
+        local UserInputService = game:GetService("UserInputService")
+        local ReplicatedStorage = game:GetService("ReplicatedStorage")
+        local VirtualInputManager = game:GetService("VirtualInputManager")
+        local request = syn and syn.request or http and http.request or request or fluxus and fluxus.request
+
+        local LocalPlayer = Players.LocalPlayer
+        local PlayerName = LocalPlayer.Name
+
+        local Collection = {}
+        Collection.__index = Collection
+
+        ------------------------------ [ Checking Variable ] ------------------------------
+
+        local roman_to_arabic = {
+            ["I"] = 1, ["V"] = 5, ["X"] = 10, ["L"] = 50, ["C"] = 100, ["D"] = 500, ["M"] = 1000
+        }
+        
+        function RomanToArabic(roman)
+            local total = 0
+            local previous = 0
+            
+            for i = #roman, 1, -1 do
+                local char = roman:sub(i, i)
+                local value = roman_to_arabic[char]
+                
+                if value < previous then
+                    total = total - value
+                else
+                    total = total + value
+                end
+                
+                previous = value
+            end
+            
+            return total
+        end
+        
+        local arabic_to_roman = {
+            {1000, "M"}, {900, "CM"}, {500, "D"}, {400, "CD"},
+            {100, "C"}, {90, "XC"}, {50, "L"}, {40, "XL"},
+            {10, "X"}, {9, "IX"}, {5, "V"}, {4, "IV"},
+            {1, "I"}
+        }
+        
+        function ArabicToRoman(arabic)
+            local roman = ""
+            
+            for _, pair in ipairs(arabic_to_roman) do
+                local value, symbol = pair[1], pair[2]
+                
+                while arabic >= value do
+                    roman = roman .. symbol
+                    arabic = arabic - value
+                end
+            end
+            
+            return roman
+        end
+
+        local DataManager = {}
+        function DataManager:Get()
+            return DataManager.Save.Get()
+        end
+        DataManager.Save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
+        DataManager.Upgrades = require(game:GetService("ReplicatedStorage").Library.Directory.Upgrades)
+
+        local Network = game:GetService("ReplicatedStorage"):FindFirstChild("Network")
+
+        local PotionRecipes = require(game:GetService("ReplicatedStorage").Library.Directory.CraftingMachines)
+
+        function DataManager:GetEquippedPetsEUID()
+            local EUIDs = {}
+            local EquippedPets = DataManager:Get()['EquippedPets']
+
+            for i,v in next, EquippedPets do
+                table.insert(EUIDs, tostring(i))
+            end
+
+            return EUIDs
+        end
+
+        function DataManager:GetBreakables()
+            for i,v in next, workspace.__THINGS.Breakables:GetChildren() do
+                if v:IsA('Model') then
+                    return v
+                end
+            end
+
+            return nil
+        end
+
+        function DataManager:SetTarget(UUID)
+            local EquippedEUIDs = DataManager:GetEquippedPetsEUID() -- > 3824, 3124, 5234
+
+            for i,v in next, EquippedEUIDs do
+                Network.Breakables_JoinPetBulk:FireServer({[v] = tonumber(UUID)})
+            end
+        end
+
+        function DataManager:Click(Model)
+            if Model and Model:FindFirstChildOfClass('MeshPart') and Model:FindFirstChildOfClass('MeshPart'):FindFirstChild('Hitbox') and Model:FindFirstChildOfClass('MeshPart'):FindFirstChild('Hitbox'):FindFirstChildOfClass('ClickDetector') then
+                fireclickdetector(Model:FindFirstChildOfClass('MeshPart'):FindFirstChild('Hitbox'):FindFirstChildOfClass('ClickDetector'))
+            end
+        end
+
+        DataManager.JoinCooldown = 0
+
+        function DataManager:Break()
+            local Breakables = DataManager:GetBreakables()
+
+            if Breakables then
+                DataManager:SetTarget(Breakables.Name)
+                DataManager:Click(Breakables)
+            end
+        end
+
+        function DataManager:GetUpgrades()
+            local Upgrades = DataManager:Get()['EquippedPets']
+        end
+        
+        function DataManager:PurchaseUpgrades()
+            for key, value in pairs(DataManager.Upgrades) do
+                game:GetService("ReplicatedStorage").Network.Upgrades_Purchase:InvokeServer(tostring(key))
+            end
+        end
+
+        function DataManager:GetFruitID()
+            local FruitIDs = {}
+            local Fruit = DataManager:Get()["Inventory"]["Fruit"]
+            for i,v in next, Fruit do
+                table.insert(FruitIDs, tostring(i))
+            end
+            return FruitIDs
+        end
+
+        function DataManager:UseFruits()
+            local FruitIDs = DataManager:GetFruitID()
+            
+            for i, v in next, FruitIDs do
+                Network["Fruits: Consume"]:InvokeServer(tostring(v), 1)
+            end
+        end
+
+        function DataManager:GetConsumable()
+            local Consumables = DataManager:Get()["Inventory"]["Consumable"]
+            local ConsumableIDs = {}
+            for i,v in next, Consumables do
+                table.insert(ConsumableIDs, v)
+            end
+            return ConsumableIDs
+        end
+
+        function DataManager:GetConsumableIDs()
+            local Consumables = DataManager:Get()["Inventory"]["Consumable"]
+            local ConsumableIDs = {}
+            for i,v in next, Consumables do
+                table.insert(ConsumableIDs, i)
+            end
+            return ConsumableIDs
+        end
+
+        function DataManager:GetPotionRecipeIndex(id, tn)
+            -- for i, v in pairs(require(game:GetService("ReplicatedStorage").Library.Directory.CraftingMachines)) do
+            --     if v["PotionCraftingMachine"] then
+            --         for ii, recipe in pairs(v["Recipes"]) do
+            --             local result = recipe["Result"]["_data"]
+            --             if result["id"] == id and result["tn"] == tn then
+            --                 return tostring(recipe["RecipeIndex"])
+            --             end
+            --         end
+            --     end
+            -- end
+
+            local PotionCraftingMachine = require(game:GetService("ReplicatedStorage").Library.Directory.CraftingMachines).PotionCraftingMachine
+
+            for i,v in next, PotionCraftingMachine.Recipes do
+                local ResultData = v['Result']['_data']
+
+                if ResultData and ResultData['id'] == id and ResultData['tn'] == tn then
+                    return tonumber(v['RecipeIndex'])
+                end
+            end
+
+            return nil
+        end
+        
+        Network.Inventory_Opened:FireServer()
+
+        ------------------------------ [ UI Library ] ------------------------------
+
+        function Collection:Keyboard(Key,Holding)
+            spawn(function()
+                xpcall(function()
+                    if Holding == nil then
+                        Holding = 0 
+                    end
+                    VirtualInputManager:SendKeyEvent(true,Key,false,LocalPlayer.Character.HumanoidRootPart)
+                    wait(Holding)
+                    VirtualInputManager:SendKeyEvent(false,Key,false,LocalPlayer.Character.HumanoidRootPart) 
+                end,warn)
+            end)
+        end
+
+        function Collection:FireButton(button)
+            if not button then return end;
+            local VisibleUI = LocalPlayer.PlayerGui:FindFirstChild("_") or Instance.new("Frame")
+            VisibleUI.Name = "_"
+            VisibleUI.BackgroundTransparency = 1
+        
+            LocalPlayer.PlayerGui.SelectionImageObject = VisibleUI
+        
+        
+            GuiService.SelectedObject = button;
+        
+            VirtualInputManager:SendKeyEvent(true, 'Return', false, game)
+            task.wait(.1);
+            VirtualInputManager:SendKeyEvent(false, 'Return', false, game)
+        
+            task.wait(.5)
+            GuiService.SelectedObject = nil;
+        end;
+
+        local VirtualInputManager = game:GetService("VirtualInputManager")
+
+        function simulateClick(button)
+            if typeof(button) == "Instance" and (button:IsA("TextButton") or button:IsA("Frame") or button:IsA("ImageButton")) then
+                local buttonPosition = button.AbsolutePosition + button.AbsoluteSize / 2
+                VirtualInputManager:SendMouseButtonEvent(buttonPosition.X, buttonPosition.Y + 40, 0, true, button, 0) 
+                VirtualInputManager:SendMouseButtonEvent(buttonPosition.X, buttonPosition.Y + 40, 0, false, button, 0) 
+            else
+                warn("The target is not a valid button instance.")
+            end
+        end
+            
+        simulateClick(LocalPlayer.PlayerGui.Main.Bottom.Buttons.Pets)
+        
+
+        task.wait(0.1)
+        LocalPlayer.PlayerGui.Main.Enabled = true
+        
+
+        -- firesignal(game:GetService("Players").LocalPlayer.PlayerGui.Main.Bottom.Buttons.Pets.ImageLabel)
+
+        ------------------------------ [ Workspace ] ------------------------------
+
+        game.Players.LocalPlayer.Idled:Connect(function()
+            local VirtualUser = game:GetService("VirtualUser")
+            VirtualUser:CaptureController()
+            VirtualUser:ClickButton2(Vector2.new())
+        end)
+
+        spawn(function()
+            while task.wait(1) do
+                game:GetService("StarterGui"):SetCoreGuiEnabled(Enum.CoreGuiType.PlayerList, false) -- Disable leaderboard
+                game:GetService("StarterGui"):SetCoreGuiEnabled(Enum.CoreGuiType.Chat, false) -- Disable Chat  
+                
+            end
+        end)
+
+        spawn(function()
+            while task.wait(1) do
+                game:GetService("ReplicatedStorage").Library.Signal:WaitForChild("Process Pending Start"):Destroy()
+            end
+        end)
+
+        spawn(function()
+            while task.wait(1) do
+                game:GetService("ReplicatedStorage").Network:WaitForChild("Process Pending Start"):Destroy()
+            end
+        end)
+
+        spawn(function()
+            while task.wait(1) do
+                game:GetService("Players").LocalPlayer.PlayerScripts.Scripts.Core:WaitForChild("Process Pending GUI"):Destroy()
+            end
+        end)
+
+        local player = game.Players.LocalPlayer
+        local playerGui = player:WaitForChild("PlayerGui")
+
+        Network.Eggs_Roll:InvokeServer()
+        task.wait(0.3)
+        local function createButton()
+            local screenGui = playerGui:FindFirstChild('DaikiScreenGui') or Instance.new("ScreenGui")
+            screenGui.Name = "DaikiScreenGui"
+            screenGui.Parent = playerGui
+            screenGui.IgnoreGuiInset = true
+            screenGui.ResetOnSpawn = false
+        
+            local ktbg = Instance.new("ImageLabel")
+        
+            ktbg.Parent = screenGui
+            ktbg.Size = UDim2.new(0, 0, 0, 0)
+            ktbg.Position = UDim2.new(0.5, 0, 0.5, 0)
+            ktbg.AnchorPoint = Vector2.new(0.5, 0.5)
+            ktbg.Image = "rbxassetid://94083352778363"
+            ktbg.BackgroundTransparency = 0
+        
+            
+
+            local usernameui = Instance.new("TextLabel")
+            usernameui.Parent = ktbg
+            usernameui.Size = UDim2.new(0, 0, 0, 0)
+            usernameui.Position = UDim2.new(0.5, 0, 0.17, 0)
+            usernameui.AnchorPoint = Vector2.new(0.5, 0.5)
+            usernameui.Text = player.Name
+            usernameui.FontFace = Font.new("rbxasset://fonts/families/FredokaOne.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+            usernameui.TextSize = 48
+
+            local godpot = Instance.new("TextLabel")
+            -- for i, v in next, DataManager:Get()["ForeverPacks"] do
+            --     if v["Item"][1]["data"]["id"] == "Lucky Potion" then
+            --         warn("Lucky Potion")
+            --     end
+            -- end
+            local foreverPacks = DataManager:Get()["ForeverPacks"]
+            local claimedItem = nil
+            local claimedAmount = nil
+            local unclaimedItems = {}
+
+                local TimeZoneOffset = 7 * 3600
+                local function getCurrentGMT7Time()
+                    local utcTime = os.time()
+                    local gmt7Time = os.date("!%Y-%m-%dT%H:%M:%S", utcTime + TimeZoneOffset)
+                    return gmt7Time
+                end
+
+            
+            -- Function to send data to Google Sheet
+            local function sendToGoogleSheet(username, claimedName, claimedAmount, unclaimed)
+                -- If there are no unclaimed items, create a single entry with just the claimed item
+                if next(unclaimed) == nil then
+                    local dataToSend = {
+                        {
+                            ["Username"] = username,
+                            ["Claimed Item Name"] = claimedName or "None",
+                            ["Claimed Item Amounts"] = claimedAmount or 0,
+                            ["Unclaimed Item Name"] = "None",
+                            ["Unclaimed Item Amounts"] = 0,
+                            ["Date and Time (GMT+7)"] = getCurrentGMT7Time()
+                        }
+                    }
+            
+                    local jsonData = HttpService:JSONEncode(dataToSend)
+            
+                    local success, response = pcall(function()
+                        return request({
+                            Url = _G["ShetBestEndPoint"],
+                            Method = "POST",
+                            Headers = {
+                                ["Content-Type"] = "application/json",
+                                ["X-Api-Key"] = _G["ApiKey"]
+                            },
+                            Body = jsonData
+                        })
+                    end)
+            
+                    if success and response.StatusCode == 200 then
+                        print("Data successfully sent to Google Sheets for claimed item!")
+                    else
+                        warn("Failed to send data: " .. (response and response.Body or "Unknown error"))
+                    end
+                    return
+                end
+            
+                -- Original code for handling unclaimed items remains the same
+                for itemName, amount in pairs(unclaimed) do
+                    local dataToSend = {
+                        {
+                            ["Username"] = username,
+                            ["Claimed Item Name"] = claimedName or "None",
+                            ["Claimed Item Amounts"] = claimedAmount or 0,
+                            ["Unclaimed Item Name"] = itemName,
+                            ["Unclaimed Item Amounts"] = amount,
+                            ["Date and Time (GMT+7)"] = getCurrentGMT7Time()
+                        }
+                    }
+            
+                    local jsonData = HttpService:JSONEncode(dataToSend)
+            
+                    local success, response = pcall(function()
+                        return request({
+                            Url = _G["ShetBestEndPoint"],
+                            Method = "POST",
+                            Headers = {
+                                ["Content-Type"] = "application/json",
+                                ["X-Api-Key"] = _G["ApiKey"]
+                            },
+                            Body = jsonData
+                        })
+                    end)
+            
+                    if success and response.StatusCode == 200 then
+                        print("Data successfully sent to Google Sheets for " .. itemName .. "!")
+                    else
+                        warn("Failed to send data: " .. (response and response.Body or "Unknown error"))
+                    end
+                end
+            end
+            
+            local function sendWebhook(claimed, unclaimed)
+                local descriptions = {}
+                if claimed then
+                    table.insert(descriptions, claimed .. " x" .. claimedAmount .. " (รับแล้ว)")
+                end
+                for itemName, amount in pairs(unclaimed) do
+                    table.insert(descriptions, itemName .. " x" .. amount .. " (ยังไม่ได้รับ)")
+                end
+                local description = "ชื่อบัญชี: " .. PlayerName .. "\n" .. table.concat(descriptions, "\n")
+                local data = {
+                    ["content"] = nil,
+                    ["embeds"] = {
+                        {
+                            ["title"] = "Sⵜarsaⵜion ✦'s Pet Go Items Finder",
+                            ["description"] = description,
+                            ["color"] = 16711680
+                        }
+                    },
+                    ["attachments"] = {}
+                }
+                request({
+                    Url = _G["WebHookURL"],
+                    Method = "POST",
+                    Headers = { ["Content-Type"] = "application/json" },
+                    Body = HttpService:JSONEncode(data)
+                })
+            end
+            
+            local function updateItems()
+                -- Reset unclaimedItems before updating
+                unclaimedItems = {}
+            
+                local firstSlotItemId = foreverPacks["Slots"][1]["Items"][1]["data"]["id"]
+            
+                for itemName in pairs(_G.ItemsToFind) do
+                    _G.ItemsToFind[itemName] = 0
+                end
+            
+                for _, slot in pairs(foreverPacks["Slots"]) do
+                    for _, item in pairs(slot["Items"]) do
+                        local itemId = item["data"]["id"]
+                        local itemAmount = item["data"]["_am"]
+            
+                        if _G.ItemsToFind[itemId] ~= nil then
+                            _G.ItemsToFind[itemId] = _G.ItemsToFind[itemId] + (itemAmount)
+            
+                            -- Special handling for first slot
+                            if itemId == firstSlotItemId then
+                                claimedItem = itemId
+                                claimedAmount = itemAmount
+                            else
+                                if not unclaimedItems[itemId] then
+                                    unclaimedItems[itemId] = 0
+                                end
+                                unclaimedItems[itemId] = unclaimedItems[itemId] + itemAmount
+                            end
+                        end
+                    end
+                end
+            end
+            
+            local function claimFirstFreeItem()
+                repeat task.wait() until LocalPlayer.PlayerGui.Main.Left.Tools.Visible
+                Collection:FireButton(LocalPlayer.PlayerGui.Main.Left.Tools.ExclusiveShop)
+                wait(3)
+                for _, v in pairs(LocalPlayer.PlayerGui.ExclusiveShop.Frame.ItemsFrame.Items["Row - Forever Pack"].Pack.Tiles:GetChildren()) do
+                    local buyButton = v:FindFirstChild("Buttons") and v.Buttons:FindFirstChild("Buy")
+                    if buyButton and buyButton:FindFirstChild("Frame") and buyButton.Frame:FindFirstChild("Robux") then
+                        if buyButton.Frame.Robux.Text == "FREE" then
+                            Collection:FireButton(buyButton)
+                            print("Free item claimed")
+                            break
+                        end
+                    end
+                end
+            end
+            
+            spawn(function()
+                while task.wait() do
+                    if LocalPlayer.leaderstats["\240\159\142\178 Rolls"].Value >= 5 then
+                        task.wait(1)
+                        updateItems()
+                        claimFirstFreeItem()
+                        wait(1)
+                        updateItems()
+            
+                        if claimedItem or next(unclaimedItems) then
+                            sendWebhook(claimedItem, unclaimedItems)
+                            sendToGoogleSheet(
+                                game.Players.LocalPlayer.Name,
+                                claimedItem,
+                                claimedAmount,
+                                unclaimedItems
+                            )
+                            claimedItem = nil
+                            claimedAmount = nil
+                            unclaimedItems = {}
+                        end
+                        wait(9999)
+                    end
+                end
+            end)
+
+
+
+            local imageButton = Instance.new("ImageButton")
+            imageButton.Parent = screenGui
+        
+            imageButton.Size = UDim2.new(0, 50, 0, 50)
+            imageButton.Position = UDim2.new(0.2, 0, 0.2, 0)
+            imageButton.AnchorPoint = Vector2.new(0.4, 0.5)
+            imageButton.Image = "rbxassetid://83401054908706"
+            imageButton.BackgroundTransparency = 1
+        
+            imageButton.MouseButton1Click:Connect(function()
+                if ktbg.Visible == true then ktbg.Visible = false else ktbg.Visible = true end;
+            end)
+        
+            if player.PlayerGui.Main.Top:FindFirstChild('Coins') then
+                local Coin = player.PlayerGui.Main.Top:FindFirstChild('Coins'):Clone()
+                Coin.Parent = ktbg
+
+                Coin.Position = UDim2.new(0.265, 0, 0.78, 0)
+                Coin.AnchorPoint = Vector2.new(0.5, 0.5)
+                Coin.Size = UDim2.new(0, 0, 0.1, 0)
+            
+                local originalCoin = player.PlayerGui.Main.Top.Coins
+                local clonedIconMult = Coin.Icon.Mult
+                local clonedAmount = Coin.Amount
+
+                originalCoin.Icon.Mult:GetPropertyChangedSignal("Text"):Connect(function()
+                    clonedIconMult.Text = originalCoin.Icon.Mult.Text
+                end)
+
+                originalCoin.Amount:GetPropertyChangedSignal("Text"):Connect(function()
+                    clonedAmount.Text = originalCoin.Amount.Text
+                end)
+
+                local bestroll = LocalPlayer.PlayerGui.DaikiScreenGui.ImageLabel.Coins.Amount:Clone()
+                bestroll.Parent = ktbg
+                bestroll.Size = UDim2.new(0, 0, 0.1, 0)
+                bestroll.Position = UDim2.new(0.75, 0, 0.78, 0)
+                bestroll.AnchorPoint = Vector2.new(0.5, 0.5)
+                
+                player.leaderstats["\240\159\142\178 Rolls"].Changed:Connect(function(newValue)
+                    bestroll.Text = tostring(newValue)
+                end)
+
+                local dicecopy = LocalPlayer.PlayerGui.Main.Bottom.Buttons.Roll:Clone()
+                dicecopy.Parent = ktbg
+                dicecopy.Size = UDim2.new(0.15, 0, 0.15, 0)
+                dicecopy.Position = UDim2.new(0.75, 0, 0.78, 0)
+                dicecopy.AnchorPoint = Vector2.new(0.5, 0.5)
+
+                local equippedPetsUI = LocalPlayer.PlayerGui.Inventory.Frame.Main.Pages.Pets.Equipped
+                local petcopy = equippedPetsUI:Clone()
+                
+                petcopy.Parent = ktbg
+                petcopy.Size = UDim2.new(0.8, 0, 0.3, 0)
+                petcopy.Position = UDim2.new(0.5, 0, 0.5, 0)
+                petcopy.AnchorPoint = Vector2.new(0.5, 0.5)
+                
+
+                spawn(function()
+                    while task.wait() do
+                        for _, child in ipairs(equippedPetsUI:GetChildren()) do
+                            if child:IsA("ImageLabel") or child:IsA("ImageButton") then
+                                local iconClone = child:Clone()
+                                iconClone.Parent = petcopy
+                            end
+                        end
+                    end
+                end)
+
+                local function syncPropertyChanges(source, target)
+                    if source:IsA("ImageLabel") or source:IsA("ImageButton") then
+                        source:GetPropertyChangedSignal("Image"):Connect(function()
+                            target.Image = source.Image
+                        end)
+                    end
+                    
+                    if source:IsA("TextLabel") or source:IsA("TextButton") then
+                        source:GetPropertyChangedSignal("Text"):Connect(function()
+                            target.Text = source.Text
+                        end)
+                    end
+                end
+                
+                local function recursiveSync(source, target)
+                    for _, sourceChild in ipairs(source:GetChildren()) do
+                        local targetChild = target:FindFirstChild(sourceChild.Name)
+                        if targetChild then
+                            syncPropertyChanges(sourceChild, targetChild)
+                            
+                            if sourceChild:IsA("Frame") then
+                                recursiveSync(sourceChild, targetChild)
+                            end
+                
+                            if sourceChild:IsA("UIAspectRatioConstraint") then
+                                targetChild.AspectRatio = sourceChild.AspectRatio
+                            elseif sourceChild:IsA("UIConstraint") then
+                                for property, value in pairs(sourceChild:GetAttributes()) do
+                                    targetChild:SetAttribute(property, value)
+                                end
+                            end
+                        end
+                    end
+                end
+                
+                recursiveSync(LocalPlayer.PlayerGui.Main.Bottom.Buttons.Roll, dicecopy)
+                
+                spawn(function()
+                    while task.wait() do
+                        recursiveSync(LocalPlayer.PlayerGui.Main.Bottom.Buttons.Roll, dicecopy)
+                    end
+                end)
+            end
+            
+            spawn(function()
+                while task.wait() do
+                    screenGui.DisplayOrder = 969
+                end
+            end)
+
+            return screenGui
+        end
+        
+        local initialGui = createButton()
+
+        spawn(function()
+            while task.wait() do
+                Network.Eggs_Roll:InvokeServer() -- Roll
+                DataManager:Break() -- Breakables
+            end
+        end)
+
+        spawn(function()
+            while task.wait() do
+                DataManager:PurchaseUpgrades() -- Purchase Upgrades
+            end
+        end)
+
+        -- spawn(function()
+        --     while task.wait(15) do
+        --         if isItemFound then
+        --             sendWebhook(1)
+        --             wait(999999999)
+        --         end
+        --     end
+        -- end)
+
+        spawn(function()
+            while task.wait() do
+                if LocalPlayer.PlayerGui.DailyRoll.Enabled then
+                    repeat Collection:FireButton(LocalPlayer.PlayerGui.DailyRoll.Frame.Close) until not LocalPlayer.PlayerGui.DailyRoll.Enabled
+                end
+                
+                if LocalPlayer.PlayerGui.BonusRoll.Enabled then
+                    repeat Collection:FireButton(LocalPlayer.PlayerGui.BonusRoll.Frame.Close) until not LocalPlayer.PlayerGui.BonusRoll.Enabled
+                end
+
+                if LocalPlayer.PlayerGui.Changelog.Enabled then
+                    repeat Collection:FireButton(LocalPlayer.PlayerGui.Changelog.Frame.Close) until not LocalPlayer.PlayerGui.Changelog.Enabled
+                end
+            end
+        end)
+
+        spawn(function()
+            while task.wait() do
+                local args = {}
+                
+                for i, orb in ipairs(game:GetService("Workspace").__THINGS.Orbs:GetChildren()) do
+                    table.insert(args, tonumber(orb.Name))
+                    orb.Transparency = 1
+                end
+                Network["Orbs: Collect"]:FireServer(args) -- Collect Orbs (Coins | Bags | Drops)
+            end
+        end)
+
+    end
+end
