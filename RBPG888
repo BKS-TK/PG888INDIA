@@ -11,7 +11,6 @@ _G.ItemsToFind = {
     ["Huge Jolly Moose"] = 0,
     ["Titanic Reindeer Cat"] = 0,
     ["Corrupted Fishing Rod"] = 0,
-    ["Corrupted Huge Bait"] = 0,
     ["Huge Gingerbread Dragon"] = 0
 }
 
