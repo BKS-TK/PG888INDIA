@@ -11,7 +11,11 @@ _G.ItemsToFind = {
     ["Huge Jolly Moose"] = 0,
     ["Titanic Reindeer Cat"] = 0,
     ["Corrupted Fishing Rod"] = 0,
-    ["Huge Gingerbread Dragon"] = 0
+    ["Titanic Diamond Dragon"] = 0,
+    ["Huge Amethyst Dragon"] = 0,
+    ["Molten Pickaxe"] = 0,
+    ["Titanic Mining Chest"] = 0,
+    ["Huge Gingerbread Dragon"] = 0,
 }
 
 print("The Hexation | Loading")
